@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getFiles } from './fetches';
+import { getFiles, uploadFile } from './fetches';
 
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
@@ -20,25 +20,15 @@ class App extends Component {
     });
   }
 
-  upload = () => {
-    const data = new FormData();
-    data.append('file', this.state.uploading);
-    fetch("/upload", {
-      method: "POST",
-      body: data,
-    })
-      .then(
-        response => response.json()
-      )
-      .then(json => {
-        this.setState({
-          uploading: null,
-          files: json.files,
-        });
-        
-        this.fileInput.value = null;
-      })
-      .catch(error => console.log(error));
+  upload = async () => {
+    const files = await uploadFile(this.state.uploading);
+
+    this.setState({
+      uploading: null,
+      files: files,
+    });
+    
+    this.fileInput.current.value = null;
   };
 
   onFileChange = e => {
