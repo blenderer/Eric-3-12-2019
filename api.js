@@ -34,13 +34,10 @@ app.get("/files", async (req, res) => {
 });
 
 app.delete("/files", async (req, res) => {
-  console.log(req.body);
   if (!req.body.id) {
     return res.sendStatus(400);
   }
 
-  console.log(files);
-  
   files = files.filter(file => file.id !== req.body.id);
 
   res.json({
@@ -48,7 +45,7 @@ app.delete("/files", async (req, res) => {
   });
 });
 
-app.post("/upload", upload.single("file"), async (req, res) => {
+app.post("/files", upload.single("file"), async (req, res) => {
   try {
     files.push({
       id: req.file.filename,

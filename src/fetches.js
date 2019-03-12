@@ -10,7 +10,7 @@ export const getFiles = query => {
 export const uploadFile = file => {
   const data = new FormData();
   data.append("file", file);
-  return fetch("/upload", {
+  return fetch("/files", {
     method: "POST",
     body: data
   })
