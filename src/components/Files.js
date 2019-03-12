@@ -24,9 +24,9 @@ class Files extends Component {
       <div className={classes.root}>
         <div className={classes.header}>
           <p className={classes.documentCount}>{files.length} Documents</p>
-          <p>Total File Size: {totalFileSize / 1000} KB</p>
+          <p>Total Size: {totalFileSize / 1000} KB</p>
         </div>
-        <div>
+        <div className={classes.files}>
           {files.map(file => (
             <File
               key={file.id}
@@ -54,6 +54,17 @@ const styles = {
   },
   documentCount: {
     fontSize: 29
+  },
+  files: {
+    display: 'flex',
+    flexDirection: 'column',
+    margin: -10
+  },
+  '@media screen and (min-width: 450px)': {
+    files: {
+      flexDirection: 'row',
+      flexFlow: 'wrap'
+    }
   }
 };
 

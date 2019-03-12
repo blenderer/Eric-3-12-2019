@@ -64,6 +64,9 @@ const styles = {
     flex: '1 1 auto',
     flexDirection: 'column',
     padding: 15,
+    maxWidth: 960,
+    width: '100%',
+    alignSelf: 'center'
   },
   header: {
     display: 'flex',
