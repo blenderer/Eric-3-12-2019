@@ -24,8 +24,15 @@ class Search extends Component {
           placeholder="Search Document(s)"
           variant="outlined"
           fullWidth
+          inputProps={{
+            'data-testid': 'search'
+          }}
         />
-        {search && <Button onClick={onClear}>Clear</Button>}
+        {search && (
+          <Button data-testid="clear" onClick={onClear}>
+            Clear
+          </Button>
+        )}
       </div>
     );
   }
@@ -33,12 +40,12 @@ class Search extends Component {
 
 const styles = {
   root: {
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center"
   },
-  '@media screen and (max-width: 449px)': {
+  "@media screen and (max-width: 449px)": {
     root: {
-      width: '100%',
+      width: "100%",
       height: 162
     }
   }
