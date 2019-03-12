@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
+import Upload from './components/Upload';
+import Files from './components/Files';
+
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
@@ -28,53 +31,24 @@ class AppInterface extends Component {
       onUpload,
       onFileChange,
       onDelete
-    } = this.props;
-
-    const totalFileSize = files
-      .map(file => file.size)
-      .reduce((totalSize, currentFileSize) => {
-        return totalSize + currentFileSize;
-      }, 0);
+    } = this.props;;
 
     return (
       <div>
-        <p>Please provide only png or jpg files under 10MB.</p>
-        <input type="file" onChange={onFileChange} ref={fileInputRef} />
-        <br /><br/>
-        <Button
-          variant="contained"
-          color="primary"
-          disabled={!fileReady}
-          onClick={onUpload}
-        >
-          Upload
-        </Button>
+        <Upload
+          fileReady={fileReady}
+          fileInputRef={fileInputRef}
+          onUpload={onUpload}
+          onFileChange={onFileChange}
+        />
         <br/><br/>
-        <div>
-          <TextField
-            value={search}
-            onChange={onSearch}
-            placeholder="Search File(s)"
-          />
-          {search && <Button onClick={onClear}>Clear</Button>}
-        </div>
-        <div>
-          <p>
-            {files.length} Documents
-          </p>
-          <p>
-            Total File Size: {totalFileSize / 1000} KB
-          </p>
-        </div>
-        <div>
-          {files.map(file => (
-            <div key={file.id}>
-              <p>{file.name}</p>
-              <p>{file.size / 1000} KB</p>
-              <Button onClick={() => onDelete(file.id)}>Delete</Button>
-            </div>
-          ))}
-        </div>
+        <Files
+          files={files}
+          search={search}
+          onSearch={onSearch}
+          onClear={onClear}
+          onDelete={onDelete}
+        />
       </div>
     );
   }
