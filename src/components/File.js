@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 
 class File extends Component {
   static propTypes = {
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     size: PropTypes.number.isRequired,
     onDelete: PropTypes.func.isRequired

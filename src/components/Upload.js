@@ -1,40 +1,47 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
 
 class Upload extends Component {
   static propTypes = {
-    fileReady: PropTypes.bool.isRequired,
+    classes: PropTypes.object.isRequired,
     fileInputRef: PropTypes.object.isRequired,
-    onUpload: PropTypes.func.isRequired,
-    onFileChange: PropTypes.func.isRequired,
+    onFileChange: PropTypes.func.isRequired
   };
 
   render() {
-    const {
-      fileReady,
-      fileInputRef,
-      onFileChange,
-      onUpload
-    } = this.props;
+    const { classes, fileInputRef, onFileChange } = this.props;
 
     return (
-      <>
-        <p>Please provide only png or jpg files under 10MB.</p>
-        <input type="file" onChange={onFileChange} ref={fileInputRef} />
-        <br /><br/>
-        <Button
-          variant="contained"
-          color="primary"
-          disabled={!fileReady}
-          onClick={onUpload}
-        >
-          Upload
-        </Button>
-      </>
+      <div>
+        <input
+          className={classes.input}
+          id="upload"
+          type="file"
+          onChange={onFileChange}
+          ref={fileInputRef}
+        />
+        <label className={classes.label} htmlFor="upload">
+          <Button
+            size="large"
+            color="primary"
+            variant="contained"
+            component="span"
+          >
+            Upload (10MB max, png/jpg)
+          </Button>
+        </label>
+      </div>
     );
   }
 }
 
-export default Upload;
+const styles = {
+  input: {
+    display: "none"
+  }
+};
+
+export default withStyles(styles)(Upload);

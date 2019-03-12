@@ -23,12 +23,11 @@ class App extends Component {
     }
   }
 
-  upload = async () => {
+  upload = async (file) => {
     try {
-      const files = await uploadFile(this.state.uploading);
+      const files = await uploadFile(file);
 
       this.setState({
-        uploading: null,
         files: files
       });
 
@@ -49,9 +48,7 @@ class App extends Component {
         return alert('file is too large, please reduce file size under 10MB or try another');
       }
 
-      this.setState({
-        uploading: e.target.files[0], // TODO: add file [0] check
-      });
+      this.upload(e.target.files[0]);
     }
   };
 
@@ -101,11 +98,10 @@ class App extends Component {
   };
 
   render() {
-    const { files, search, uploading } = this.state;
+    const { files, search } = this.state;
 
     return (
       <AppInterface
-        fileReady={!!uploading}
         files={files}
         search={search}
         fileInputRef={this.fileInput}

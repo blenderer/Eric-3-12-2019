@@ -1,25 +1,18 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
 
-import File from './File';
+import File from "./File";
 
 class Files extends Component {
   static propTypes = {
+    classes: PropTypes.object.isRequired,
     files: PropTypes.array.isRequired,
-    search: PropTypes.string.isRequired,
-    onSearch: PropTypes.func.isRequired,
-    onClear: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired
   };
 
   render() {
-    const {
-      files,
-      search,
-      onSearch,
-      onClear,
-      onDelete
-    } = this.props;
+    const { files, onDelete, classes } = this.props;
 
     const totalFileSize = files
       .map(file => file.size)
@@ -28,15 +21,10 @@ class Files extends Component {
       }, 0);
 
     return (
-      <>
-        
-        <div>
-          <p>
-            {files.length} Documents
-          </p>
-          <p>
-            Total File Size: {totalFileSize / 1000} KB
-          </p>
+      <div className={classes.root}>
+        <div className={classes.header}>
+          <p className={classes.documentCount}>{files.length} Documents</p>
+          <p>Total File Size: {totalFileSize / 1000} KB</p>
         </div>
         <div>
           {files.map(file => (
@@ -45,12 +33,28 @@ class Files extends Component {
               name={file.name}
               size={file.size}
               id={file.id}
+              onDelete={onDelete}
             />
           ))}
         </div>
-      </>
+      </div>
     );
   }
 }
 
-export default Files;
+const styles = {
+  root: {
+    display: "flex",
+    flexDirection: "column"
+  },
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  documentCount: {
+    fontSize: 29
+  }
+};
+
+export default withStyles(styles)(Files);

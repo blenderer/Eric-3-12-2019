@@ -9,7 +9,6 @@ import Files from "./components/Files";
 class AppInterface extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    fileReady: PropTypes.bool.isRequired,
     files: PropTypes.array.isRequired,
     search: PropTypes.string.isRequired,
     fileInputRef: PropTypes.object.isRequired,
@@ -23,7 +22,6 @@ class AppInterface extends Component {
   render() {
     const {
       classes,
-      fileReady,
       files,
       fileInputRef,
       search,
@@ -43,7 +41,6 @@ class AppInterface extends Component {
             onClear={onClear}
           />
           <Upload
-            fileReady={fileReady}
             fileInputRef={fileInputRef}
             onUpload={onUpload}
             onFileChange={onFileChange}
@@ -65,10 +62,13 @@ const styles = {
   layout: {
     display: 'flex',
     flex: '1 1 auto',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    padding: 15,
   },
   header: {
     display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   }
 };
 
