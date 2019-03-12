@@ -30,6 +30,12 @@ class AppInterface extends Component {
       onDelete
     } = this.props;
 
+    const totalFileSize = files
+      .map(file => file.size)
+      .reduce((totalSize, currentFileSize) => {
+        return totalSize + currentFileSize;
+      }, 0);
+
     return (
       <div>
         <input type="file" onChange={onFileChange} ref={fileInputRef} />
@@ -49,6 +55,11 @@ class AppInterface extends Component {
             placeholder="Search File(s)"
           />
           {search && <Button onClick={onClear}>Clear</Button>}
+        </div>
+        <div>
+          <p>
+            Total File Size: {totalFileSize / 1000} KB
+          </p>
         </div>
         <div>
           {files.map(file => (
