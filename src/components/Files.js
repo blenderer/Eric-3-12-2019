@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
-class AppInterface extends Component {
+import File from './File';
+
+class Files extends Component {
   static propTypes = {
     files: PropTypes.array.isRequired,
     search: PropTypes.string.isRequired,
@@ -48,11 +50,12 @@ class AppInterface extends Component {
         </div>
         <div>
           {files.map(file => (
-            <div key={file.id}>
-              <p>{file.name}</p>
-              <p>{file.size / 1000} KB</p>
-              <Button onClick={() => onDelete(file.id)}>Delete</Button>
-            </div>
+            <File
+              key={file.id}
+              name={file.name}
+              size={file.size}
+              id={file.id}
+            />
           ))}
         </div>
       </>
@@ -60,4 +63,4 @@ class AppInterface extends Component {
   }
 }
 
-export default AppInterface;
+export default Files;
