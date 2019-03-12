@@ -38,7 +38,7 @@ class AppInterface extends Component {
 
     return (
       <div>
-        <p>Please provide only png or jpg files.</p>
+        <p>Please provide only png or jpg files under 10MB.</p>
         <input type="file" onChange={onFileChange} ref={fileInputRef} />
         <br /><br/>
         <Button

@@ -56,7 +56,11 @@ app.post("/files", upload.single("file"), async (req, res) => {
   // check the actual file type via magic number
   const fileExtension = fileType(req.file.buffer).ext;
   if (!validFileExtensions[fileExtension]) {
-    return res.sendStatus(400);
+    return res.sendStatus(400); // TODO: return more specific error messages
+  }
+
+  if (req.file.size > 1000 * 1000 * 10) { // 10MB
+    return res.sendStatus(400); // TODO: return more specific error messages
   }
 
   try {
