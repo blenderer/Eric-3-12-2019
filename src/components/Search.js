@@ -21,8 +21,9 @@ class Search extends Component {
         <TextField
           value={search}
           onChange={onSearch}
-          placeholder="Search File(s)"
+          placeholder="Search Document(s)"
           variant="outlined"
+          fullWidth
         />
         {search && <Button onClick={onClear}>Clear</Button>}
       </div>
@@ -34,6 +35,12 @@ const styles = {
   root: {
     display: 'flex',
     alignItems: 'center'
+  },
+  '@media screen and (max-width: 449px)': {
+    root: {
+      width: '100%',
+      height: 162
+    }
   }
 };
 

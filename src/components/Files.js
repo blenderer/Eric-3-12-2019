@@ -43,14 +43,15 @@ class Files extends Component {
 }
 
 const styles = {
-  root: {
-    display: "flex",
-    flexDirection: "column"
-  },
   header: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center"
+  },
+  '@media screen and (max-width: 449px)': {
+    header: {
+      flexDirection: 'column',
+    }
   },
   documentCount: {
     fontSize: 29
@@ -65,7 +66,7 @@ const styles = {
       flexDirection: 'row',
       flexFlow: 'wrap'
     }
-  }
+  },
 };
 
 export default withStyles(styles)(Files);

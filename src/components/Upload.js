@@ -15,7 +15,7 @@ class Upload extends Component {
     const { classes, fileInputRef, onFileChange } = this.props;
 
     return (
-      <div>
+      <div className={classes.root}>
         <input
           className={classes.input}
           id="upload"
@@ -29,6 +29,7 @@ class Upload extends Component {
             color="primary"
             variant="contained"
             component="span"
+            fullWidth
           >
             Upload (10MB max, png/jpg)
           </Button>
@@ -41,6 +42,14 @@ class Upload extends Component {
 const styles = {
   input: {
     display: "none"
+  },
+  '@media screen and (max-width: 449px)': {
+    root: {
+      width: '100%'
+    },
+    label: {
+      width: '100%'
+    }
   }
 };
 

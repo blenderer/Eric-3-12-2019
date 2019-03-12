@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
 import Search from "./components/Search";
 import Upload from "./components/Upload";
@@ -35,24 +35,14 @@ class AppInterface extends Component {
     return (
       <div className={classes.layout}>
         <div className={classes.header}>
-          <Search
-            search={search}
-            onSearch={onSearch}
-            onClear={onClear}
-          />
+          <Search search={search} onSearch={onSearch} onClear={onClear} />
           <Upload
             fileInputRef={fileInputRef}
             onUpload={onUpload}
             onFileChange={onFileChange}
           />
         </div>
-
-        <br />
-        <br />
-        <Files
-          files={files}
-          onDelete={onDelete}
-        />
+        <Files files={files} onDelete={onDelete} />
       </div>
     );
   }
@@ -60,18 +50,25 @@ class AppInterface extends Component {
 
 const styles = {
   layout: {
-    display: 'flex',
-    flex: '1 1 auto',
-    flexDirection: 'column',
+    display: "flex",
+    flex: "1 1 auto",
+    flexDirection: "column",
     padding: 15,
     maxWidth: 960,
-    width: '100%',
-    alignSelf: 'center'
+    width: "100%",
+    alignSelf: "center",
+    overflow: "scroll"
   },
   header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    minHeight: 115
+  },
+  "@media screen and (max-width: 449px)": {
+    header: {
+      flexDirection: "column-reverse"
+    }
   }
 };
 
