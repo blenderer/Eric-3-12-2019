@@ -38,8 +38,9 @@ class AppInterface extends Component {
 
     return (
       <div>
+        <p>Please provide only png or jpg files.</p>
         <input type="file" onChange={onFileChange} ref={fileInputRef} />
-        <br />
+        <br /><br/>
         <Button
           variant="contained"
           color="primary"
@@ -48,6 +49,7 @@ class AppInterface extends Component {
         >
           Upload
         </Button>
+        <br/><br/>
         <div>
           <TextField
             value={search}
@@ -57,6 +59,9 @@ class AppInterface extends Component {
           {search && <Button onClick={onClear}>Clear</Button>}
         </div>
         <div>
+          <p>
+            {files.length} Documents
+          </p>
           <p>
             Total File Size: {totalFileSize / 1000} KB
           </p>

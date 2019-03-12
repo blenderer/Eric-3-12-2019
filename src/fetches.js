@@ -4,7 +4,6 @@ export const getFiles = query => {
   return fetch(`/files${optionalQuery}`)
     .then(response => response.json())
     .then(json => json.files)
-    .catch(error => console.log(error));
 };
 
 export const uploadFile = file => {
@@ -16,7 +15,6 @@ export const uploadFile = file => {
   })
     .then(response => response.json())
     .then(json => json.files)
-    .catch(error => console.log(error));
 };
 
 export const deleteFile = fileId => {
@@ -31,5 +29,4 @@ export const deleteFile = fileId => {
   })
     .then(response => response.json())
     .then(json => json.files)
-    .catch(error => console.log(error));
 };
