@@ -14,6 +14,7 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 app.post('/upload', upload.single('file'), async (req, res) => {
   try {
     files.push({
+      id: req.file.filename,
       name: req.file.originalname,
       size: req.file.size
     });
