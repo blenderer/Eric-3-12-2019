@@ -1,13 +1,24 @@
 import React, { Component } from "react";
+import { getFiles } from './fetches';
+
 import Button from "@material-ui/core/Button";
+import TextField from '@material-ui/core/TextField';
 
 class App extends Component {
   state = {
     uploading: null,
     files: [],
+    search: '',
   };
 
   fileInput = React.createRef();
+
+  async componentDidMount() {
+    const files = await getFiles();
+    this.setState({
+      files: files,
+    });
+  }
 
   upload = () => {
     const data = new FormData();
@@ -36,8 +47,34 @@ class App extends Component {
     });
   };
 
+  onSearch = async e => {
+    const searchText = e.target.value;
+
+    this.setState({search: searchText});
+    
+    if (!searchText) {
+      const files = await getFiles();
+      return this.setState({
+        files: files,
+      });
+    };
+
+    const files = await getFiles(searchText);
+    this.setState({
+      files: files,
+    });
+  }
+
+  clearSearch = async () => {
+    const files = await getFiles();
+    this.setState({
+      search: '',
+      files,
+    });
+  }
+
   render() {
-    const { files, uploading } = this.state;
+    const { files, search } = this.state;
 
     return (
       <div>
@@ -45,7 +82,17 @@ class App extends Component {
         <br />
         <Button onClick={this.upload}>Upload</Button>
         <div>
-          {this.state.files.map(file => (
+          <TextField
+            value={search}
+            onChange={this.onSearch}
+            placeholder="Search File(s)"
+          />
+          {search && <Button onClick={this.clearSearch}>
+            Clear
+          </Button>}
+        </div>
+        <div>
+          {files.map(file => (
             <div key={file.id}>
               <p>{file.name}</p>
               <p>{file.size / 1000} KB</p>
