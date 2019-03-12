@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require('body-parser');
 const multer = require("multer");
 const Fuse = require("fuse.js");
 
@@ -8,11 +9,12 @@ const upload = multer({ dest: `${UPLOAD_PATH}/` });
 const app = express();
 const port = 4444;
 
-const files = [];
+let files = [];
 
+app.use(bodyParser.json());
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-app.get("/files", upload.single("file"), async (req, res) => {
+app.get("/files", async (req, res) => {
   if (!req.query.q) {
     res.json({
       files: files
@@ -28,6 +30,21 @@ app.get("/files", upload.single("file"), async (req, res) => {
 
   res.json({
     files: filteredFiles,
+  });
+});
+
+app.delete("/files", async (req, res) => {
+  console.log(req.body);
+  if (!req.body.id) {
+    return res.sendStatus(400);
+  }
+
+  console.log(files);
+  
+  files = files.filter(file => file.id !== req.body.id);
+
+  res.json({
+    files: files,
   });
 });
 

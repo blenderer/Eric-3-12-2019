@@ -1,14 +1,13 @@
 import React, { Component } from "react";
-import { getFiles, uploadFile } from './fetches';
+import { getFiles, uploadFile, deleteFile } from "./fetches";
 
-import Button from "@material-ui/core/Button";
-import TextField from '@material-ui/core/TextField';
+import AppInterface from "./AppInterface";
 
 class App extends Component {
   state = {
     uploading: null,
     files: [],
-    search: '',
+    search: ""
   };
 
   fileInput = React.createRef();
@@ -16,7 +15,7 @@ class App extends Component {
   async componentDidMount() {
     const files = await getFiles();
     this.setState({
-      files: files,
+      files: files
     });
   }
 
@@ -25,9 +24,9 @@ class App extends Component {
 
     this.setState({
       uploading: null,
-      files: files,
+      files: files
     });
-    
+
     this.fileInput.current.value = null;
   };
 
@@ -40,56 +39,50 @@ class App extends Component {
   onSearch = async e => {
     const searchText = e.target.value;
 
-    this.setState({search: searchText});
-    
+    this.setState({ search: searchText });
+
     if (!searchText) {
       const files = await getFiles();
       return this.setState({
-        files: files,
+        files: files
       });
-    };
+    }
 
     const files = await getFiles(searchText);
     this.setState({
-      files: files,
+      files: files
     });
-  }
+  };
 
   clearSearch = async () => {
     const files = await getFiles();
     this.setState({
-      search: '',
-      files,
+      search: "",
+      files
     });
-  }
+  };
+
+  delete = async fileId => {
+    const files = await deleteFile(fileId);
+    this.setState({
+      files
+    });
+  };
 
   render() {
     const { files, search } = this.state;
 
     return (
-      <div>
-        <input type="file" onChange={this.onFileChange} ref={this.fileInput} />
-        <br />
-        <Button onClick={this.upload}>Upload</Button>
-        <div>
-          <TextField
-            value={search}
-            onChange={this.onSearch}
-            placeholder="Search File(s)"
-          />
-          {search && <Button onClick={this.clearSearch}>
-            Clear
-          </Button>}
-        </div>
-        <div>
-          {files.map(file => (
-            <div key={file.id}>
-              <p>{file.name}</p>
-              <p>{file.size / 1000} KB</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      <AppInterface
+        files={files}
+        search={search}
+        fileInputRef={this.fileInput}
+        onSearch={this.onSearch}
+        onClear={this.clearSearch}
+        onUpload={this.upload}
+        onFileChange={this.onFileChange}
+        onDelete={this.delete}
+      />
     );
   }
 }
