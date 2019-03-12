@@ -70,10 +70,11 @@ class App extends Component {
   };
 
   render() {
-    const { files, search } = this.state;
+    const { files, search, uploading } = this.state;
 
     return (
       <AppInterface
+        fileReady={!!uploading}
         files={files}
         search={search}
         fileInputRef={this.fileInput}

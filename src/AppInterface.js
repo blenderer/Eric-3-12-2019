@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 
 class AppInterface extends Component {
   static propTypes = {
+    fileReady: PropTypes.bool.isRequired,
     files: PropTypes.array.isRequired,
     search: PropTypes.string.isRequired,
     fileInputRef: PropTypes.object.isRequired,
@@ -18,6 +19,7 @@ class AppInterface extends Component {
 
   render() {
     const {
+      fileReady,
       files,
       fileInputRef,
       search,
@@ -32,7 +34,14 @@ class AppInterface extends Component {
       <div>
         <input type="file" onChange={onFileChange} ref={fileInputRef} />
         <br />
-        <Button onClick={onUpload}>Upload</Button>
+        <Button
+          variant="contained"
+          color="primary"
+          disabled={!fileReady}
+          onClick={onUpload}
+        >
+          Upload
+        </Button>
         <div>
           <TextField
             value={search}
