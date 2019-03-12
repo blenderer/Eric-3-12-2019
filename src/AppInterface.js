@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withStyles } from '@material-ui/core/styles';
 
-import Upload from './components/Upload';
-import Files from './components/Files';
-
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
+import Search from "./components/Search";
+import Upload from "./components/Upload";
+import Files from "./components/Files";
 
 class AppInterface extends Component {
   static propTypes = {
+    classes: PropTypes.object.isRequired,
     fileReady: PropTypes.bool.isRequired,
     files: PropTypes.array.isRequired,
     search: PropTypes.string.isRequired,
@@ -22,6 +22,7 @@ class AppInterface extends Component {
 
   render() {
     const {
+      classes,
       fileReady,
       files,
       fileInputRef,
@@ -31,22 +32,28 @@ class AppInterface extends Component {
       onUpload,
       onFileChange,
       onDelete
-    } = this.props;;
+    } = this.props;
 
     return (
-      <div>
-        <Upload
-          fileReady={fileReady}
-          fileInputRef={fileInputRef}
-          onUpload={onUpload}
-          onFileChange={onFileChange}
-        />
-        <br/><br/>
+      <div className={classes.layout}>
+        <div className={classes.header}>
+          <Search
+            search={search}
+            onSearch={onSearch}
+            onClear={onClear}
+          />
+          <Upload
+            fileReady={fileReady}
+            fileInputRef={fileInputRef}
+            onUpload={onUpload}
+            onFileChange={onFileChange}
+          />
+        </div>
+
+        <br />
+        <br />
         <Files
           files={files}
-          search={search}
-          onSearch={onSearch}
-          onClear={onClear}
           onDelete={onDelete}
         />
       </div>
@@ -54,4 +61,15 @@ class AppInterface extends Component {
   }
 }
 
-export default AppInterface;
+const styles = {
+  layout: {
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column'
+  },
+  header: {
+    display: 'flex',
+  }
+};
+
+export default withStyles(styles)(AppInterface);

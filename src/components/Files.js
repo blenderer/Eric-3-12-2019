@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-
 import File from './File';
 
 class Files extends Component {
@@ -32,14 +29,7 @@ class Files extends Component {
 
     return (
       <>
-        <div>
-          <TextField
-            value={search}
-            onChange={onSearch}
-            placeholder="Search File(s)"
-          />
-          {search && <Button onClick={onClear}>Clear</Button>}
-        </div>
+        
         <div>
           <p>
             {files.length} Documents
