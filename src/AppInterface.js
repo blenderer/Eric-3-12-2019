@@ -57,7 +57,6 @@ const styles = {
     maxWidth: 960,
     width: "100%",
     alignSelf: "center",
-    overflow: "scroll"
   },
   header: {
     display: "flex",
