@@ -1,68 +1,79 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Eric Harrison - 3-12-19
+## Installation
+```
+yarn install
+npm run server
 
-## Available Scripts
+// open a new tab
+yarn start
 
-In the project directory, you can run:
+// to run tests:
+npm test
+```
 
-### `npm start`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Security
+- Coverage:
+  - file type checking is handled on the "backend" via [magic number checking](https://en.wikipedia.org/wiki/Magic_number_(programming))
+  - XSS prevention via [React](https://reactjs.org/docs/introducing-jsx.html#jsx-prevents-injection-attacks)
+- Not covered:
+  - DDOS attacks. The backend does not have throttling or any sort of DDOS protection
+  - package dependancy attacks. I have not audited any of the dependancies to reduce attacks. I have however made sure most of the packages installed are well known, so in the case a vulenrability is discovered- it will be known to the community historically quite fast.
+## Improvements
+- Backend is an express server, but for production ready APIs, I would create a separate deployment so it could run somewhere other than a local development environment
+- Better error reporting and validation
+  - Error Reporting: Right now the application has `alert` calls for reporting errors and the `App.js` component has scattered `try/catch` calls. If I chose to put it more time, I would create an API service that would handle errors in a single spot and pass error information into the App. I would also expand the backend to report more detailed error messages.
+  - Validation: I would use Material UI's built-in [Error Feature] to report file size + file type errors before they uploaded to the backend
+- Better testing: I am still pretty new to React testing, so I would set aside some time to look at production open-source apps in the wild and emulate their testing methods and strategies. My testing strategies we're to unit test small display components to make sure any business logic (conditional) wouldn't break on regressions.
+- Better styling:
+  - I would swap out the wireframe look w/ Material Design Cards.
+  - I would add in the actual photos to the Cards themselves
+  - I would add in Loading States to hook up to the API service and display a spinner when there is any API call happening
+- Remove state from the API: Currently, the API loses all data when the server goes down. I would upload the files to a database for persistance so they could stay in between api restarts
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
 
-### `npm test`
+## Libraries
+UI:
+- @material-ui/core
+  - nice button / textfield styling. Also adds support for JSS CSS styling
+- jest-dom
+  - extra testing utilities for Jest testing
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+API:
+- multer
+  - easy express middleware for multipart/form-data uploads
+- body-parser
+  - enables JSON parsing for express
+- cors
+  - not entirely sure if this is needed because I set up a proxy, but most likely needed if I were to deploy to a separate server
+- express
+  - needed to run the mock-server api
+- file-type
+  - has magic-number checking for file types, to stop malicious attempts at uploading malcious files disguised as images
+- fuse.js
+  - simple, light weight fuzzy search util
 
-### `npm run build`
+## API 
+- it's a mock server for proof-of-concept
+- It's [stateful](http://wiki.apidesign.org/wiki/Stateful)
+- it handles file size validation as well as file type validation via magic number checking
+- create-react-app's ability to proxy it's endpoints instead of having to deal with CORS 
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+### GET /files
+- Get the entire list of files
+- grabs all or a filtered list of files (via fuzzy search)
+- Returns: JSON with a key `files` that has an array of File objects
+- this endpoint accepts the `q` query param optionally
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### POST /files
+- Upload a file to the api server
+- uploads a multipart form file, validates file size and file type, then returns a list of every file
+- Returns: JSON with a key `files` that has an array of File objects, it will return status code: 400 on bad validations
+- this endpoint requires a `multipart/form-data` body with a key `file` and the value a javascript file
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### DELETE /files
+- Deletes a file from the api server
+- finds the file id provided in the list, removes it
+- Returns: JSON with a key `files` that has an array of File objects with the specific file removes
+- this endpoint requires an `id` key/value as part of the body to, this id represents the file to delete
